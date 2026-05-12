@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Merta Store | Sky Blue Edition</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Video Background - dioptimasi untuk playback smooth */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            /* Optimasi playback */
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            padding: 1.5rem 1.2rem 3rem;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+
+        /* Container utama: transparan total */
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            background: transparent;
+            border-radius: 56px;
+            padding: 2rem 1.8rem 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Profile Section - Logo di tengah */
+        .profile {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .avatar-link {
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .avatar-link:hover {
+            transform: scale(1.02);
+        }
+        .avatar {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(135, 206, 235, 0.8);
+            margin-bottom: 0.8rem;
+            background: rgba(135, 206, 235, 0.2);
+            transition: all 0.2s;
+        }
+
+        .store-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #87CEEB, #4A90E2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .bio {
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.4);
+            display: inline-block;
+            padding: 0.4rem 1.3rem;
+            border-radius: 60px;
+            font-weight: 500;
+            color: #E8F4FD;
+            border: 1px solid rgba(135, 206, 235, 0.6);
+        }
+
+        /* Tautan utama: latar transparan dengan aksen biru langit */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0 2rem;
+        }
+
+        .link-card {
+            background: rgba(20, 20, 30, 0.55);
+            border-radius: 80px;
+            padding: 0.9rem 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: #E8F4FD;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.25s ease;
+            border: 1px solid rgba(135, 206, 235, 0.6);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-card i:first-child {
+            font-size: 1.5rem;
+            width: 36px;
+            color: #87CEEB;
+            text-align: center;
+        }
+
+        .link-label {
+            flex: 1;
+            text-align: left;
+            margin-left: 0.6rem;
+            font-weight: 500;
+        }
+
+        .link-arrow {
+            font-size: 1.1rem;
+            color: #87CEEB;
+            transition: transform 0.2s ease;
+        }
+
+        .link-card:hover {
+            background: rgba(50, 70, 90, 0.7);
+            border-color: #4A90E2;
+            transform: translateY(-2px);
+        }
+
+        .link-card:hover .link-arrow {
+            transform: translateX(5px);
+        }
+
+        /* Sosial Media Grid: HANYA TikTok & WhatsApp */
+        .social-section {
+            margin: 2.2rem 0 1.2rem;
+            text-align: center;
+        }
+
+        .social-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+            color: #B8E1FC;
+            background: rgba(0,0,0,0.3);
+            display: inline-block;
+            padding: 0.25rem 1.2rem;
+            border-radius: 40px;
+        }
+
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.2rem;
+        }
+
+        .social-icon {
+            background: rgba(0, 0, 0, 0.5);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: #87CEEB;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            border: 1px solid rgba(135, 206, 235, 0.7);
+            cursor: pointer;
+        }
+
+        .social-icon:hover {
+            background: #4A90E2;
+            color: #ffffff;
+            transform: translateY(-5px);
+            border-color: #87CEEB;
+        }
+
+        /* info badge - transparan dengan aksen biru langit */
+        .info-badge {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 40px;
+            padding: 1rem 1.2rem;
+            margin: 1.8rem 0 1rem;
+            text-align: center;
+            border: 1px solid rgba(135, 206, 235, 0.5);
+        }
+
+        .info-badge p {
+            font-size: 0.85rem;
+            color: #D6F0FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-weight: 500;
+        }
+
+        .info-badge i {
+            color: #87CEEB;
+        }
+
+        /* Music Player Control */
+        .music-control {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 18px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 999;
+            border: 1px solid rgba(135, 206, 235, 0.7);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            font-size: 0.85rem;
+        }
+        .music-control button {
+            background: #4A90E2;
+            border: none;
+            color: white;
+            font-size: 0.85rem;
+            padding: 5px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .music-control button:hover {
+            background: #87CEEB;
+            color: #1e2a36;
+            transform: scale(1.02);
+        }
+        .music-status {
+            font-weight: 500;
+            color: #B8E1FC;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 1.6rem;
+            font-size: 0.7rem;
+            color: #B8E1FC;
+            border-top: 1px solid rgba(135, 206, 235, 0.3);
+            padding-top: 1.2rem;
+            font-weight: 400;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem 1.2rem;
+            }
+            .avatar {
+                width: 100px;
+                height: 100px;
+            }
+            .store-name {
+                font-size: 1.65rem;
+            }
+            .social-icon {
+                width: 52px;
+                height: 52px;
+                font-size: 1.9rem;
+            }
+            .link-card {
+                padding: 0.7rem 1.2rem;
+            }
+            .link-card i:first-child {
+                font-size: 1.3rem;
+                width: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- VIDEO BACKGROUND - Link diupdate dengan file 
+ yang lebih stabil -->
+<video id="bgVideo" class="video-background" autoplay loop muted playsinline preload="auto">
+    <!-- Ganti URL video MP4 disini - pastikan file dengan ukuran tidak terlalu besar & bitrate stabil -->
+    <source src="https://files.catbox.moe/djeuq8.mp4" type="video/mp4">
+</video>
+
+<!-- MUSIK -->
+<audio id="bgMusic" loop preload="auto">
+    <!-- Ganti URL MP3 disini -->
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+    <!-- Profile: LOGO DI TENGAH -->
+    <div class="profile">
+        <a href="#" id="logoLink" class="avatar-link" target="_blank">
+            <img id="storeLogo" class="avatar" src="https://placehold.co/400x400/2c3e50/87CEEB?text=MERTA" alt="Logo Toko Merta">
+        </a>
+        <div class="store-name">MERTA STORE</div>
+        <div class="bio">🎀 Informasi Merta Store 🎀</div>
+        <div class="bio">⏳ Aku Suka Jam Pasir ⏳</div>
+        <div class="bio">🎶 Nyalakan Music 🎶</div>
+    </div>
+
+    <!-- Daftar tautan utama -->
+    <div class="links">
+        <div class="link-card" id="asisten-link">
+            <i class="fas fa-laptop-code"></i>
+            <span class="link-label">Asisten Merta</span>
+            <i class="fas fa-chevron-right link-arrow"></i>
+        </div>
+        <div class="link-card" id="group-link">
+            <i class="fas fa-users"></i>
+            <span class="link-label">Group Merta Store</span>
+            <i class="fas fa-chevron-right link-arrow"></i>
+        </div>
+        <div class="link-card" id="webnokos-link">
+            <i class="fas fa-globe"></i>
+            <span class="link-label">Web Nokos Rekomendasi</span>
+            <i class="fas fa-chevron-right link-arrow"></i>
+        </div>
+        <div class="link-card" id="payment-link">
+            <i class="fas fa-credit-card"></i>
+            <span class="link-label">Pembayaran Merta Store</span>
+            <i class="fas fa-chevron-right link-arrow"></i>
+        </div>
+    </div>
+
+    <!-- Sosial Media: TikTok & WhatsApp -->
+    <div class="social-section">
+        <div class="social-title">👊🏻 INFORMAN 👊🏻</div>
+        <div class="social-grid">
+            <div class="social-icon" id="tiktokSocial"><i class="fab fa-tiktok"></i></div>
+            <div class="social-icon" id="whatsappSocial"><i class="fab fa-whatsapp"></i></div>
+        </div>
+    </div>
+
+    <!-- Informasi toko -->
+    <div class="info-badge">
+        <p><i class="fas fa-clock"></i> Buka Setiap Hari 14.00 - 21.00 WIB</p>
+        <p><i class="fas fa-credit-card"></i> QRIS | OVO | DANA | GOPAY</p>
+    </div>
+    <div class="footer-note">
+        © 2025 MERTA STORE CASSANO
+    </div>
+</div>
+
+<!-- Music Floating Control -->
+<div class="music-control">
+    <i class="fas fa-headphones" style="color:#87CEEB"></i>
+    <span class="music-status" id="musicStatusText">Memuat Musik...</span>
+    <button id="toggleMusicBtn">OFF</button>
+</div>
+
+<script>
+    // ======================= PENGATURAN (UPDATE SESUAI KEBUTUHAN) =======================
+    // Rekomendasi: Gunakan file MP4 dengan ukuran maksimal 10-15MB untuk kelancaran pada koneksi mobile.
+    const VIDEO_URL = "https://files.catbox.moe/ert8du.mp4";   // Video background (pastikan link valid & stabil)
+    const MUSIC_URL = "https://files.catbox.moe/htdiv1.mp3";   // Ganti link musik atau bisa pakai soundhelix jika sesuai
+    const LOGO_IMAGE_URL = "https://files.catbox.moe/2qmrw0.png";
+    const LOGO_CLICK_URL = "https://linktr.ee/mertastore22";
+    const CLICK_SOUND_URL = "https://files.catbox.moe/8x0m26.mp3";
+    
+    // Daftar tautan
+    const linkDestinations = {
+        asisten: "https://wa.me/message/LGV55JDSOVO2N1",
+        group: "https://chat.whatsapp.com/DZyYltf1ATdE4N6QpG3XKB",
+        webnokos: "https://sub4unlock.me/059f5",
+        payment: "https://pembayaran-merta-store.vercel.app/",
+        tiktok: "https://tiktok.com/@mertastore22",
+        whatsapp: "https://wa.me/message/LGV55JDSOVO2N1",
+    };
+    // =====================================================================================
+    
+    // ========== OPTIMASI VIDEO BACKGROUND AGAR TIDAK PUTUS-PUTUS ==========
+    const videoElement = document.getElementById('bgVideo');
+    if (videoElement) {
+        // 1. Pastikan source video diupdate
+        const sourceElem = videoElement.querySelector('source');
+        if (sourceElem) sourceElem.src = VIDEO_URL;
+        
+        // 2. Set attribute penting untuk kelancaran
+        videoElement.setAttribute('preload', 'auto');
+        videoElement.setAttribute('playsinline', 'true');
+        videoElement.muted = true; // wajib untuk autoplay browser
+        
+        // 3. Load ulang video
+        videoElement.load();
+        
+        // 4. Fungsi untuk memutar video dengan catch error (hanya sekali)
+        const startVideo = () => {
+            videoElement.play().catch(e => {
+                console.warn("Video autoplay ditunda hingga interaksi user:", e);
+                // Jika gagal autoplay, coba sekali lagi saat user pertama kali klik di halaman
+                document.body.addEventListener('click', function videoRetry() {
+                    videoElement.play().catch(() => {});
+                    document.body.removeEventListener('click', videoRetry);
+                }, { once: true });
+            });
+        };
+        
+        // Mulai video secepat mungkin
+        if (videoElement.readyState >= 2) {
+            startVideo();
+        } else {
+            videoElement.addEventListener('canplaythrough', startVideo, { once: true });
+            // fallback: setelah 500ms coba mainkan
+            setTimeout(startVideo, 500);
+        }
+        
+        // Mengatasi buffering / patah-patah: mengurangi kemungkinan lag karena koneksi
+        // Tidak ada manipulasi buffer yang berlebihan, namun kita pantau error
+        videoElement.addEventListener('stalled', () => {
+            console.log("Video stalled, mencoba reload jika perlu");
+            if (videoElement.networkState === HTMLMediaElement.NETWORK_LOADING) {
+                videoElement.play().catch(()=>{});
+            }
+        });
+    }
+    
+    // ========== MUSIK AUTO PLAY BERSAMAAN DENGAN VIDEO ==========
+    const musicPlayer = document.getElementById('bgMusic');
+    const toggleBtn = document.getElementById('toggleMusicBtn');
+    const musicStatusSpan = document.getElementById('musicStatusText');
+    let isMusicPlaying = true;
+    let musicPlayAttempted = false;
+    
+    // Set sumber musik
+    if (musicPlayer) {
+        musicPlayer.src = MUSIC_URL;
+        musicPlayer.load();
+        musicPlayer.volume = 0.6; // volume nyaman
+    }
+    
+    // Fungsi menjalankan musik dengan handling autoplay policy
+    function startMusic() {
+        if (!musicPlayer) return;
+        musicPlayer.play().then(() => {
+            isMusicPlaying = true;
+            if (musicStatusSpan) musicStatusSpan.innerText = "Musik Menyala";
+            if (toggleBtn) toggleBtn.innerText = "OFF";
+            musicPlayAttempted = true;
+        }).catch(e => {
+            console.log("Autoplay musik perlu interaksi user:", e);
+            if (musicStatusSpan) musicStatusSpan.innerText = "Tap untuk Main";
+            isMusicPlaying = false;
+            if (toggleBtn) toggleBtn.innerText = "ON";
+        });
+    }
+    
+    function stopMusic() {
+        if (!musicPlayer) return;
+        musicPlayer.pause();
+        isMusicPlaying = false;
+        if (musicStatusSpan) musicStatusSpan.innerText = "Musik Dihentikan";
+        if (toggleBtn) toggleBtn.innerText = "ON";
+    }
+    
+    // Inisiasi: coba mainkan musik dan video secara simultan saat halaman dimuat
+    window.addEventListener('load', () => {
+        // Usaha memutar musik bersamaan dengan video
+        startMusic();
+        
+        // Jika musik gagal karena kebijakan autoplay browser,
+        // kita akan meminta interaksi pertama kali user terhadap halaman (klik/tap di mana saja)
+        const resumePlaybackOnInteraction = () => {
+            if (!isMusicPlaying && musicPlayer && musicPlayer.paused) {
+                startMusic();
+            }
+            // Jika video belum jalan, coba juga putar video
+            if (videoElement && videoElement.paused) {
+                videoElement.play().catch(()=>{});
+            }
+            document.body.removeEventListener('click', resumePlaybackOnInteraction);
+            document.body.removeEventListener('touchstart', resumePlaybackOnInteraction);
+        };
+        
+        // Jika setelah 1 detik musik belum playing, pasang listener
+        setTimeout(() => {
+            if (musicPlayer && musicPlayer.paused) {
+                document.body.addEventListener('click', resumePlaybackOnInteraction);
+                document.body.addEventListener('touchstart', resumePlaybackOnInteraction);
+            }
+        }, 800);
+    });
+    
+    // Tombol toggle musik
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isMusicPlaying) {
+                stopMusic();
+            } else {
+                startMusic();
+            }
+            playClickSound();
+        });
+    }
+    
+    // ========== SUARA KLIK (opsional) ==========
+    function playClickSound() {
+        if (!CLICK_SOUND_URL) return;
+        const sound = new Audio(CLICK_SOUND_URL);
+        sound.volume = 0.35;
+        sound.play().catch(e => console.log("Sound click tidak tersedia"));
+    }
+    
+    // ========== NAVIGASI TAUTAN DENGAN EFEK SUARA ==========
+    function navigateWithSound(url) {
+        if (!url) {
+            alert("🔗 Tautan akan segera tersedia!");
+            playClickSound();
+            return;
+        }
+        playClickSound();
+        setTimeout(() => {
+            window.open(url, "_blank", "noopener,noreferrer");
+        }, 40);
+    }
+    
+    // Atur tombol utama
+    const asistenLink = document.getElementById("asisten-link");
+    const groupLink = document.getElementById("group-link");
+    const webnokosLink = document.getElementById("webnokos-link");
+    const paymentLink = document.getElementById("payment-link");
+    const tiktokSocial = document.getElementById("tiktokSocial");
+    const whatsappSocial = document.getElementById("whatsappSocial");
+    
+    if (asistenLink) asistenLink.addEventListener("click", (e) => { e.preventDefault(); navigateWithSound(linkDestinations.asisten); });
+    if (groupLink) groupLink.addEventListener("click", (e) => { e.preventDefault(); navigateWithSound(linkDestinations.group); });
+    if (webnokosLink) webnokosLink.addEventListener("click", (e) => { e.preventDefault(); navigateWithSound(linkDestinations.webnokos); });
+    if (paymentLink) paymentLink.addEventListener("click", (e) => { e.preventDefault(); navigateWithSound(linkDestinations.payment); });
+    if (tiktokSocial) tiktokSocial.addEventListener("click", () => navigateWithSound(linkDestinations.tiktok));
+    if (whatsappSocial) whatsappSocial.addEventListener("click", () => navigateWithSound(linkDestinations.whatsapp));
+    
+    // Logo & gambar
+    const logoImg = document.getElementById('storeLogo');
+    if (logoImg) logoImg.src = LOGO_IMAGE_URL;
+    const logoLinkElem = document.getElementById('logoLink');
+    if (logoLinkElem) {
+        logoLinkElem.href = LOGO_CLICK_URL;
+        logoLinkElem.setAttribute('target', '_blank');
+        logoLinkElem.addEventListener('click', () => playClickSound());
+    }
+    
+    // Pastikan video tidak berhenti karena tab tidak aktif? (biarkan default)
+    // Menambahkan event untuk menjaga agar video tidak berhenti dimainkan setelah interaksi
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+            if (videoElement && videoElement.paused && videoElement.readyState > 0) {
+                videoElement.play().catch(()=>{});
+            }
+        }
+    });
+    
+    console.log("✅ Merta Store - Video background dioptimasi untuk playback halus tanpa patah, musik dan video dimulai bersamaan.");
+</script>
+</body>
+</html>
